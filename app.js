@@ -3,9 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/products');
+var sequelize = require('./models/index')
+var Category = require('./models/category')
+var Product = require('./models/product')
+var categoriesRouter = require('./routes/categories')
+var authRouter = require('./routes/auth')
+var sequelize = require('./models/index')
 
 var app = express();
 
@@ -18,10 +24,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/upload', express.static('uploads'))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+app.use('./categories', categoriesRouter)
+app.use('/auth', authRouter)
 
+
+// Sinkronkan model dengan database
+sequelize.sync()
+  .then(() => {
+    console.log('Database synchronized')
+  })
+  .catch(err => {
+    console.error('Error synchronizing database:', err)
+  })
+
+
+  
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
