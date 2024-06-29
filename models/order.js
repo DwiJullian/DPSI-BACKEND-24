@@ -1,4 +1,6 @@
-
+const Customer = require('./customer')
+const Employee = require('./employee')
+const Shipper = require('./shipper')
 const { DataTypes } = require('sequelize');
 const Order = (sequelize) => {
     return sequelize.define('Order', {
@@ -9,7 +11,11 @@ const Order = (sequelize) => {
         },
         customerID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: Customer,
+                key:'customerID'
+            }
         },
         firstName: {
             type: DataTypes.STRING,
@@ -17,7 +23,11 @@ const Order = (sequelize) => {
         },
         employeeID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: Employee,
+                key:'employeeID'
+            }
         },
         orderDate: {
             type: DataTypes.DATE,
@@ -25,7 +35,11 @@ const Order = (sequelize) => {
         },
         shipperID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: Shipper,
+                key:'shipperID'
+            }
         }
     })
 }

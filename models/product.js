@@ -1,4 +1,6 @@
 const { DataTypes } = require('sequelize');
+const Category = require('./category');
+const Supplier = require('./supplier');
 const Product = (sequelize) => {
     return sequelize.define('Product', {
         ProductID: {
@@ -12,11 +14,19 @@ const Product = (sequelize) => {
         },
         supplierID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: Supplier,
+                key: "supplierID"
+            }
         },
         categoryID: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            References: {
+                model: Category,
+                key: 'categoryID'
+            }
         },
         unit : {
             type: DataTypes.STRING,

@@ -8,10 +8,18 @@ var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var sequelize = require('./models/index')
 var Category = require('./models/category')
+var Supplier = require('./models/supplier')
 var Product = require('./models/product')
+
+var Shipper = require('./models/shipper')
+var Customer = require('./models/customer')
+var Employee = require('./models/employee')
+var Order = require('./models/order')
+
+var OrderDetail = require('./models/orderDetail')
+
 var categoriesRouter = require('./routes/categories')
 var authRouter = require('./routes/auth')
-var sequelize = require('./models/index')
 
 var app = express();
 

@@ -16,7 +16,5 @@ const Category = (sequelize) => {
         }
     });
 }
-// const Customer = (sequelize, DataTypes) => {
-//     return
-// }
+
 module.exports = Category;
