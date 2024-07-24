@@ -3,23 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
-var sequelize = require('./models/index')
-var Category = require('./models/category')
-var Supplier = require('./models/supplier')
-var Product = require('./models/product')
+var authRouter = require('./routes/auth');
 
-var Shipper = require('./models/shipper')
-var Customer = require('./models/customer')
-var Employee = require('./models/employee')
-var Order = require('./models/order')
+var sequelize = require('./models/index');
+var pelanggan = require('./models/pelanggan')
+var produk = require('./models/produk')
+var staff = require('./models/staff')
+var pesanan = require('./models/pesanan')
 
-var OrderDetail = require('./models/orderDetail')
-
-var categoriesRouter = require('./routes/categories')
-var authRouter = require('./routes/auth')
+var akun = require('./models/akun')
 
 var app = express();
 
@@ -32,26 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/upload', express.static('uploads'))
+
+// app.use('/uploads', express.static('uploads'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
-app.use('./categories', categoriesRouter)
-app.use('/auth', authRouter)
+app.use('/auth', authRouter);
 
-
-// Sinkronkan model dengan database
-sequelize.sync()
-  .then(() => {
-    console.log('Database synchronized')
-  })
-  .catch(err => {
-    console.error('Error synchronizing database:', err)
-  })
-
-
-  
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -67,5 +51,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+sequelize.sync()
+  .then(() => {
+    console.log('Database synchronized');
+  })
+  .catch(err => {
+    console.error('Error synchronizing database:', err);
+  });
 
 module.exports = app;
